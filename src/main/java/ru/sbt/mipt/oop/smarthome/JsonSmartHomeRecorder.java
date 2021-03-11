@@ -1,4 +1,4 @@
-package ru.sbt.mipt.oop;
+package ru.sbt.mipt.oop.smarthome;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -11,22 +11,35 @@ import java.nio.file.Paths;
 
 public class JsonSmartHomeRecorder implements SmartHomeRecorder {
 
+    public JsonSmartHomeRecorder(String pathToFile) {
+        this.pathToFile = pathToFile;
+    }
+
     @Override
-    public SmartHome getSmartHome(String path) throws IOException {
+    public SmartHome getSmartHome() {
         Gson gson = new Gson();
-        String json = new String(Files.readAllBytes(Paths.get(path)));
+        String json;
+        try {
+            json = new String(Files.readAllBytes(Paths.get(pathToFile)));
+        } catch (IOException e) {
+            throw new RuntimeException("Couldn't open the file " + pathToFile, e);
+        }
 
         return gson.fromJson(json, SmartHome.class);
     }
 
     @Override
-    public void saveSmartHome(SmartHome smartHome, String path) throws IOException {
+    public void saveSmartHome(SmartHome smartHome) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonString = gson.toJson(smartHome);
         System.out.println(jsonString);
-        Path fullPath = Paths.get(path);
+        Path fullPath = Paths.get(pathToFile);
         try (BufferedWriter writer = Files.newBufferedWriter(fullPath)) {
             writer.write(jsonString);
+        } catch (IOException e){
+            throw new RuntimeException("Couldn't write to the file " + pathToFile, e);
         }
     }
+
+    private final String pathToFile;
 }

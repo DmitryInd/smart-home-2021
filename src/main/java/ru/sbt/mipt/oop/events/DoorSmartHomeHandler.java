@@ -1,8 +1,11 @@
-package ru.sbt.mipt.oop;
+package ru.sbt.mipt.oop.events;
 
-import static ru.sbt.mipt.oop.SensorEventType.*;
+import ru.sbt.mipt.oop.log.OutputStream;
+import ru.sbt.mipt.oop.smarthome.*;
 
-public class DoorSmartHomeHandler extends SmartHomeHandlerImpl {
+import static ru.sbt.mipt.oop.events.SensorEventType.*;
+
+public class DoorSmartHomeHandler extends SmartHomeHandler {
 
     public DoorSmartHomeHandler(SmartHome smartHome, OutputStream output) {
         super(smartHome, output);
@@ -17,8 +20,8 @@ public class DoorSmartHomeHandler extends SmartHomeHandlerImpl {
             if (event.getType() == DOOR_CLOSED && currentRoom.getName().equals("hall")) {
                 // если мы получили событие о закрытие двери в холле - это значит, что была закрыта входная дверь.
                 // в этом случае мы хотим автоматически выключить свет во всем доме (это же умный дом!)
-                scriptOfSmartHome turnOffAllLights = new turnOfLightsScriptOfSmartHome();
-                turnOffAllLights.execute(smartHome, output);
+                ScriptOfSmartHome turnOffAllLights = new turnOfLightsScriptOfSmartHome(smartHome);
+                turnOffAllLights.execute();
             }
         }
     }
@@ -40,7 +43,7 @@ public class DoorSmartHomeHandler extends SmartHomeHandlerImpl {
     
     private void moveDoor(Room room, Door door, boolean isOpen) {
         door.setOpen(isOpen);
-        System.out.println("Door " + door.getId() + " in room " + room.getName() + " was "
+        output.sendLog("Door " + door.getId() + " in room " + room.getName() + " was "
                 + (isOpen? "opened.": "closed."));
     }
 }

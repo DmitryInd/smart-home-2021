@@ -1,8 +1,13 @@
-package ru.sbt.mipt.oop;
+package ru.sbt.mipt.oop.events;
 
-import static ru.sbt.mipt.oop.SensorEventType.LIGHT_ON;
+import ru.sbt.mipt.oop.log.OutputStream;
+import ru.sbt.mipt.oop.smarthome.Room;
+import ru.sbt.mipt.oop.smarthome.Light;
+import ru.sbt.mipt.oop.smarthome.SmartHome;
 
-public class LightSmartHomeHandler extends SmartHomeHandlerImpl{
+import static ru.sbt.mipt.oop.events.SensorEventType.LIGHT_ON;
+
+public class LightSmartHomeHandler extends SmartHomeHandler {
     public LightSmartHomeHandler(SmartHome smartHome, OutputStream output) {
         super(smartHome, output);
     }
@@ -33,7 +38,7 @@ public class LightSmartHomeHandler extends SmartHomeHandlerImpl{
 
     private void switchLight(Room room, Light light, boolean isOn) {
         light.setOn(isOn);
-        System.out.println("Light " + light.getId() + " in room " + room.getName() + " was " +
+        output.sendLog("Light " + light.getId() + " in room " + room.getName() + " was " +
                 (isOn? "turned on.": "turned off."));
     }
 }

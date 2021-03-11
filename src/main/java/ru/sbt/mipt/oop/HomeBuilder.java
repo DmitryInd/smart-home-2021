@@ -1,16 +1,17 @@
 package ru.sbt.mipt.oop;
 
-import java.io.IOException;
+import ru.sbt.mipt.oop.smarthome.*;
+
 import java.util.Arrays;
 import java.util.Collection;
 
 public class HomeBuilder {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Collection<Room> listRooms = createRooms();
         SmartHome smartHome = new SmartHome(listRooms);
-        SmartHomeRecorder homeSaver = new JsonSmartHomeRecorder();
-        homeSaver.saveSmartHome(smartHome, "output.js");
+        SmartHomeRecorder homeSaver = new JsonSmartHomeRecorder("output.js");
+        homeSaver.saveSmartHome(smartHome);
     }
 
     private static Collection<Room> createRooms() {
