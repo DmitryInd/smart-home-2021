@@ -3,12 +3,8 @@ package ru.sbt.mipt.oop.smarthome;
 import ru.sbt.mipt.oop.command.*;
 
 public class turnOfLightsScriptOfSmartHome implements ScriptOfSmartHome {
-    public turnOfLightsScriptOfSmartHome(SmartHome smartHome) {
-        this.smartHome = smartHome;
-    }
-
     @Override
-    public void execute() {
+    public void execute(SmartHome smartHome) {
         for (Room homeRoom : smartHome.getRooms()) {
             for (Light light : homeRoom.getLights()) {
                 light.setOn(false);
@@ -18,6 +14,4 @@ public class turnOfLightsScriptOfSmartHome implements ScriptOfSmartHome {
             }
         }
     }
-
-    private final SmartHome smartHome;
 }

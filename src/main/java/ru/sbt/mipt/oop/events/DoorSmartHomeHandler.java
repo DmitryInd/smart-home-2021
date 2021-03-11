@@ -16,12 +16,12 @@ public class DoorSmartHomeHandler extends SmartHomeHandler {
         // событие от двери
         Door door = findDoor(event.getObjectId());
         if (door != null) {
-            moveDoor(currentRoom, door, event.getType() == DOOR_OPEN);
+            moveDoor(door, event.getType() == DOOR_OPEN);
             if (event.getType() == DOOR_CLOSED && currentRoom.getName().equals("hall")) {
                 // если мы получили событие о закрытие двери в холле - это значит, что была закрыта входная дверь.
                 // в этом случае мы хотим автоматически выключить свет во всем доме (это же умный дом!)
-                ScriptOfSmartHome turnOffAllLights = new turnOfLightsScriptOfSmartHome(smartHome);
-                turnOffAllLights.execute();
+                ScriptOfSmartHome turnOffAllLights = new turnOfLightsScriptOfSmartHome();
+                turnOffAllLights.execute(smartHome);
             }
         }
     }
@@ -41,9 +41,9 @@ public class DoorSmartHomeHandler extends SmartHomeHandler {
         return null;
     }
     
-    private void moveDoor(Room room, Door door, boolean isOpen) {
+    private void moveDoor(Door door, boolean isOpen) {
         door.setOpen(isOpen);
-        output.sendLog("Door " + door.getId() + " in room " + room.getName() + " was "
+        output.sendLog("Door " + door.getId() + " in room " + currentRoom.getName() + " was "
                 + (isOpen? "opened.": "closed."));
     }
 }

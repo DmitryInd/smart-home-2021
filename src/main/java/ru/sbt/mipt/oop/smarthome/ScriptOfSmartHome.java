@@ -1,5 +1,5 @@
 package ru.sbt.mipt.oop.smarthome;
 
 public interface ScriptOfSmartHome {
-    void execute();
+    void execute(SmartHome smartHome);
 }

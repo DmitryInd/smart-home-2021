@@ -17,7 +17,7 @@ public class LightSmartHomeHandler extends SmartHomeHandler {
         // событие от источника света
         Light light = findLight(event);
         if (light != null) {
-            switchLight(currentRoom, light, event.getType() == LIGHT_ON);
+            switchLight(light, event.getType() == LIGHT_ON);
         }
     }
 
@@ -36,9 +36,9 @@ public class LightSmartHomeHandler extends SmartHomeHandler {
         return null;
     }
 
-    private void switchLight(Room room, Light light, boolean isOn) {
+    private void switchLight(Light light, boolean isOn) {
         light.setOn(isOn);
-        output.sendLog("Light " + light.getId() + " in room " + room.getName() + " was " +
+        output.sendLog("Light " + light.getId() + " in room " + currentRoom.getName() + " was " +
                 (isOn? "turned on.": "turned off."));
     }
 }
