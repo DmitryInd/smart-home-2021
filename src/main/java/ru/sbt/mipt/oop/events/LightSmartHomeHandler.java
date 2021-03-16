@@ -1,34 +1,37 @@
 package ru.sbt.mipt.oop.events;
 
+import javafx.util.Pair;
 import ru.sbt.mipt.oop.log.OutputStream;
 import ru.sbt.mipt.oop.smarthome.Room;
 import ru.sbt.mipt.oop.smarthome.Light;
 import ru.sbt.mipt.oop.smarthome.SmartHome;
 
-import static ru.sbt.mipt.oop.events.SensorEventType.LIGHT_ON;
+import static ru.sbt.mipt.oop.events.SensorEventType.*;
 
-public class LightSmartHomeHandler extends SmartHomeHandler {
+public class LightSmartHomeHandler implements SmartHomeHandler {
+    private final SmartHome smartHome;
+    private final OutputStream output;
+
     public LightSmartHomeHandler(SmartHome smartHome, OutputStream output) {
-        super(smartHome, output);
+        this.smartHome = smartHome;
+        this.output = output;
     }
 
     @Override
     public void handleEvent(SensorEvent event) {
+        if (event.getType() != DOOR_OPEN && event.getType() != DOOR_CLOSED) return;
         // событие от источника света
-        Light light = findLight(event);
-        if (light != null) {
-            switchLight(light, event.getType() == LIGHT_ON);
+        Pair<Light, Room> targetPlace = findLight(event);
+        if (targetPlace != null) {
+            switchLight(targetPlace.getKey(), targetPlace.getValue(), event.getType() == LIGHT_ON);
         }
     }
 
-    private Room currentRoom = null;
-
-    private Light findLight(SensorEvent event) {
+    private Pair<Light, Room> findLight(SensorEvent event) {
         for (Room room : smartHome.getRooms()) {
             for (Light light : room.getLights()) {
                 if (light.getId().equals(event.getObjectId())) {
-                    currentRoom = room;
-                    return light;
+                    return new Pair<>(light, room);
                 }
             }
         }
@@ -36,9 +39,9 @@ public class LightSmartHomeHandler extends SmartHomeHandler {
         return null;
     }
 
-    private void switchLight(Light light, boolean isOn) {
+    private void switchLight(Light light, Room room, boolean isOn) {
         light.setOn(isOn);
-        output.sendLog("Light " + light.getId() + " in room " + currentRoom.getName() + " was " +
+        output.sendLog("Light " + light.getId() + " in room " + room.getName() + " was " +
                 (isOn? "turned on.": "turned off."));
     }
 }

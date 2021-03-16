@@ -10,13 +10,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class JsonSmartHomeRecorder implements SmartHomeRecorder {
+    private final String pathToFile;
 
     public JsonSmartHomeRecorder(String pathToFile) {
         this.pathToFile = pathToFile;
     }
 
     @Override
-    public SmartHome getSmartHome() {
+    public SmartHome readSmartHome() {
         Gson gson = new Gson();
         String json;
         try {
@@ -40,6 +41,4 @@ public class JsonSmartHomeRecorder implements SmartHomeRecorder {
             throw new RuntimeException("Couldn't write to the file " + pathToFile, e);
         }
     }
-
-    private final String pathToFile;
 }
