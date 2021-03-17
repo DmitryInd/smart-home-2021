@@ -1,4 +1,4 @@
-package ru.sbt.mipt.oop;
+package ru.sbt.mipt.oop.smarthome;
 
 public class Light {
     private boolean isOn;
