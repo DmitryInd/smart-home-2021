@@ -19,6 +19,7 @@ public class Door implements SmartHomeObject, Actionable {
     public void setOpen(boolean open) {
         isOpen = open;
     }
+    public boolean isOpen() { return isOpen; }
 
     @Override
     public void execute(SmartHomeAction smartHomeAction) {
