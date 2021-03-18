@@ -1,9 +1,15 @@
 package ru.sbt.mipt.oop.smarthome;
 
+import ru.sbt.mipt.oop.actions.Actionable;
+import ru.sbt.mipt.oop.actions.SmartHomeAction;
+import ru.sbt.mipt.oop.iterators.InternalIterable;
+import ru.sbt.mipt.oop.iterators.InternalIterator;
+import ru.sbt.mipt.oop.iterators.RoomInternalIterator;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class SmartHome {
+public class SmartHome implements Actionable, InternalIterable, SmartHomeObject {
     Collection<Room> rooms;
 
     public SmartHome() {
@@ -14,11 +20,17 @@ public class SmartHome {
         this.rooms = rooms;
     }
 
-    public void addRoom(Room room) {
-        rooms.add(room);
+    public void addRoom(Room room) { rooms.add(room); }
+    public Collection<Room> getRooms() { return rooms; }
+
+    @Override
+    public void execute(SmartHomeAction smartHomeAction) {
+        smartHomeAction.performOn(this);
+        createIterator().performForAll(smartHomeAction);
     }
 
-    public Collection<Room> getRooms() {
-        return rooms;
+    @Override
+    public InternalIterator createIterator() {
+        return new RoomInternalIterator(this);
     }
 }
