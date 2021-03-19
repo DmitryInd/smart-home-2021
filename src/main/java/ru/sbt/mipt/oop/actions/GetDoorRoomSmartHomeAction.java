@@ -20,7 +20,6 @@ public class GetDoorRoomSmartHomeAction implements SmartHomeAction {
             currentRoom = ((Room) object).getName();
         } else if (object instanceof Door) {
             if (id.equals(((Door) object).getId())) {
-                roomName.delete(0, roomName.length());
                 roomName.append(currentRoom);
             }
         }

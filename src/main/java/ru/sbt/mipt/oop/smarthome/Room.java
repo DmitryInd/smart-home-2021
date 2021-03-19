@@ -2,7 +2,6 @@ package ru.sbt.mipt.oop.smarthome;
 
 import ru.sbt.mipt.oop.actions.Actionable;
 import ru.sbt.mipt.oop.actions.SmartHomeAction;
-import ru.sbt.mipt.oop.iterators.*;
 
 import java.util.Collection;
 
@@ -24,15 +23,7 @@ public class Room implements Actionable, SmartHomeObject {
     @Override
     public void execute(SmartHomeAction smartHomeAction) {
         smartHomeAction.performOn(this);
-        createDoorIterator().performForAll(smartHomeAction);
-        createLightIterator().performForAll(smartHomeAction);
-    }
-
-    public InternalIterator createDoorIterator() {
-        return new DoorInternalIterator(doors.iterator());
-    }
-
-    public InternalIterator createLightIterator() {
-        return new LightInternalIterator(lights.iterator());
+        doors.iterator().forEachRemaining(door -> door.execute(smartHomeAction));
+        lights.iterator().forEachRemaining(light -> light.execute(smartHomeAction));
     }
 }
