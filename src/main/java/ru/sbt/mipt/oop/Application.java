@@ -1,8 +1,7 @@
 package ru.sbt.mipt.oop;
 
 import ru.sbt.mipt.oop.events.*;
-import ru.sbt.mipt.oop.log.ConsoleOutputStream;
-import ru.sbt.mipt.oop.log.OutputStream;
+import ru.sbt.mipt.oop.log.*;
 import ru.sbt.mipt.oop.smarthome.JsonSmartHomeRecorder;
 import ru.sbt.mipt.oop.smarthome.SmartHome;
 import ru.sbt.mipt.oop.smarthome.SmartHomeRecorder;
