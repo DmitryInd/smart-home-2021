@@ -1,5 +1,6 @@
 package ru.sbt.mipt.oop;
 
+import ru.sbt.mipt.oop.command.DummySenderCommands;
 import ru.sbt.mipt.oop.events.*;
 import ru.sbt.mipt.oop.log.*;
 import ru.sbt.mipt.oop.smarthome.JsonSmartHomeRecorder;
@@ -20,7 +21,7 @@ public class Application {
         List<SmartHomeHandler> handlersList = new ArrayList<>();
         handlersList.add(new DoorSmartHomeHandler(smartHome, output));
         handlersList.add(new LightSmartHomeHandler(smartHome, output));
-        handlersList.add(new EntranceSmartHomeHandler(smartHome));
+        handlersList.add(new EntranceSmartHomeHandler(smartHome, new DummySenderCommands()));
         // начинаем цикл обработки событий
         ReceiverEvents receiver = new SmartHomeReceiverEvents(handlersList, output);
         receiver.handleEvents(new TestingEventsSource());

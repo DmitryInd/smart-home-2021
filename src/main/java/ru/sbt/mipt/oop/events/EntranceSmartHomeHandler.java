@@ -2,21 +2,20 @@ package ru.sbt.mipt.oop.events;
 
 import ru.sbt.mipt.oop.actions.GetDoorRoomSmartHomeAction;
 import ru.sbt.mipt.oop.actions.TurnOffAllLightsSmartHomeAction;
-import ru.sbt.mipt.oop.command.DummySenderCommands;
+import ru.sbt.mipt.oop.command.SenderCommands;
 import ru.sbt.mipt.oop.pointer.Pointer;
 import ru.sbt.mipt.oop.smarthome.SmartHome;
 
-import java.sql.Ref;
-import java.sql.SQLException;
-import java.util.Map;
 
 import static ru.sbt.mipt.oop.events.SensorEventType.DOOR_CLOSED;
 
 public class EntranceSmartHomeHandler implements SmartHomeHandler {
     private final SmartHome smartHome;
+    private final SenderCommands senderCommands;
 
-    public EntranceSmartHomeHandler(SmartHome smartHome) {
+    public EntranceSmartHomeHandler(SmartHome smartHome, SenderCommands senderCommands) {
         this.smartHome = smartHome;
+        this.senderCommands = senderCommands;
     }
 
     @Override
@@ -28,7 +27,7 @@ public class EntranceSmartHomeHandler implements SmartHomeHandler {
         if (roomName.getObj().equals("hall")) {
             // если мы получили событие о закрытие двери в холле - это значит, что была закрыта входная дверь.
             // в этом случае мы хотим автоматически выключить свет во всем доме (это же умный дом!)
-            smartHome.execute(new TurnOffAllLightsSmartHomeAction(new DummySenderCommands()));
+            smartHome.execute(new TurnOffAllLightsSmartHomeAction(senderCommands));
         }
     }
 }

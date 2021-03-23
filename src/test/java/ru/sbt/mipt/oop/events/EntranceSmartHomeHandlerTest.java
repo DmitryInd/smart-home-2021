@@ -3,6 +3,7 @@ package ru.sbt.mipt.oop.events;
 import org.junit.jupiter.api.*;
 
 import ru.sbt.mipt.oop.actions.SmartHomeAction;
+import ru.sbt.mipt.oop.command.DummySenderCommands;
 import ru.sbt.mipt.oop.log.ConsoleOutputStream;
 import ru.sbt.mipt.oop.smarthome.*;
 
@@ -77,7 +78,7 @@ class EntranceSmartHomeHandlerTest {
     }
 
     private List<SmartHomeHandler> createDummyHandlers(SmartHome smartHome) {
-        return Arrays.asList(new EntranceSmartHomeHandler(smartHome));
+        return Arrays.asList(new EntranceSmartHomeHandler(smartHome, new DummySenderCommands()));
     }
 
     private class CheckLightsAction implements SmartHomeAction {
