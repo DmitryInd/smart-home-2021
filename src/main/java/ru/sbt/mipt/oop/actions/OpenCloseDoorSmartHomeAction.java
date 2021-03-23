@@ -4,12 +4,12 @@ import ru.sbt.mipt.oop.log.OutputStream;
 import ru.sbt.mipt.oop.smarthome.Door;
 import ru.sbt.mipt.oop.smarthome.SmartHomeObject;
 
-public class MoveDoorSmartHomeAction implements SmartHomeAction {
+public class OpenCloseDoorSmartHomeAction implements SmartHomeAction {
     private final boolean isToOpen;
     private final OutputStream output;
     private final String id;
 
-    public MoveDoorSmartHomeAction(boolean isToOpen, String id, OutputStream output) {
+    public OpenCloseDoorSmartHomeAction(boolean isToOpen, String id, OutputStream output) {
         this.isToOpen = isToOpen;
         this.id = id;
         this.output = output;

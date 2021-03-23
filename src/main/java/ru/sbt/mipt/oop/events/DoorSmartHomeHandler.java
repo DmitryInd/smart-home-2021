@@ -1,6 +1,6 @@
 package ru.sbt.mipt.oop.events;
 
-import ru.sbt.mipt.oop.actions.MoveDoorSmartHomeAction;
+import ru.sbt.mipt.oop.actions.OpenCloseDoorSmartHomeAction;
 import ru.sbt.mipt.oop.log.OutputStream;
 import ru.sbt.mipt.oop.smarthome.*;
 
@@ -19,7 +19,7 @@ public class DoorSmartHomeHandler implements SmartHomeHandler {
     public void handleEvent(SensorEvent event) {
         if (event.getType() != DOOR_OPEN && event.getType() != DOOR_CLOSED) return;
         // событие от двери
-        smartHome.execute(new MoveDoorSmartHomeAction(
+        smartHome.execute(new OpenCloseDoorSmartHomeAction(
                 event.getType() == DOOR_OPEN, event.getObjectId(), output));
     }
 }

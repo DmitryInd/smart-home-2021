@@ -3,8 +3,6 @@ package ru.sbt.mipt.oop.pointer;
 public class Pointer<T> {
     private T obj;
 
-    public Pointer() {};
-
     public Pointer(T obj) {
         this.obj = obj;
     }

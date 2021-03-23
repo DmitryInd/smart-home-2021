@@ -23,7 +23,7 @@ public class Room implements Actionable, SmartHomeObject {
     @Override
     public void execute(SmartHomeAction smartHomeAction) {
         smartHomeAction.performOn(this);
-        doors.iterator().forEachRemaining(door -> door.execute(smartHomeAction));
-        lights.iterator().forEachRemaining(light -> light.execute(smartHomeAction));
+        doors.forEach(door -> door.execute(smartHomeAction));
+        lights.forEach(light -> light.execute(smartHomeAction));
     }
 }
