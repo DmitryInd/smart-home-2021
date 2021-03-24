@@ -20,8 +20,8 @@ class EntranceSmartHomeHandlerTest {
         ReceiverEvents receiverEvents = new SmartHomeReceiverEvents(handlersList, new ConsoleOutputStream());
         EventsSource eventsSource = new EventsSource() {
             final Iterator<SensorEvent> events = Arrays.asList(
-                    new SensorEvent(SensorEventType.DOOR_OPEN, "3"),
-                    new SensorEvent(SensorEventType.DOOR_CLOSED, "1")).iterator();
+                    new SensorEvent(EventType.DOOR_OPEN, "3"),
+                    new SensorEvent(EventType.DOOR_CLOSED, "1")).iterator();
 
             @Override
             public SensorEvent getNextSensorEvent() {
@@ -46,9 +46,9 @@ class EntranceSmartHomeHandlerTest {
         ReceiverEvents receiverEvents = new SmartHomeReceiverEvents(handlersList, new ConsoleOutputStream());
         EventsSource eventsSource = new EventsSource() {
             final Iterator<SensorEvent> events = Arrays.asList(
-                    new SensorEvent(SensorEventType.DOOR_OPEN, "1"),
-                    new SensorEvent(SensorEventType.DOOR_CLOSED, "3"),
-                    new SensorEvent(SensorEventType.DOOR_OPEN, "4")).iterator();
+                    new SensorEvent(EventType.DOOR_OPEN, "1"),
+                    new SensorEvent(EventType.DOOR_CLOSED, "3"),
+                    new SensorEvent(EventType.DOOR_OPEN, "4")).iterator();
 
             @Override
             public SensorEvent getNextSensorEvent() {

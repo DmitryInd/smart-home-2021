@@ -15,7 +15,7 @@ public class SmartHomeReceiverEvents implements ReceiverEvents {
 
     @Override
     public void handleEvents(EventsSource eventsSource) {
-        SensorEvent event = eventsSource.getNextSensorEvent();
+        Event event = eventsSource.getNextSensorEvent();
         while (event != null) {
             output.sendLog("Got event: " + event);
             for (Handler handler: handlersList) {
