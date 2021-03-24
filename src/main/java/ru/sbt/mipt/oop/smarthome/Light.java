@@ -1,6 +1,9 @@
 package ru.sbt.mipt.oop.smarthome;
 
-public class Light {
+import ru.sbt.mipt.oop.actions.Actionable;
+import ru.sbt.mipt.oop.actions.SmartHomeAction;
+
+public class Light implements SmartHomeObject, Actionable {
     private boolean isOn;
     private final String id;
 
@@ -19,5 +22,10 @@ public class Light {
 
     public void setOn(boolean on) {
         isOn = on;
+    }
+
+    @Override
+    public void execute(SmartHomeAction smartHomeAction) {
+        smartHomeAction.performOn(this);
     }
 }

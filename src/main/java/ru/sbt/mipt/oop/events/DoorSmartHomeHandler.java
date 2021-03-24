@@ -1,6 +1,6 @@
 package ru.sbt.mipt.oop.events;
 
-import javafx.util.Pair;
+import ru.sbt.mipt.oop.actions.OpenCloseDoorSmartHomeAction;
 import ru.sbt.mipt.oop.log.OutputStream;
 import ru.sbt.mipt.oop.smarthome.*;
 
@@ -17,29 +17,9 @@ public class DoorSmartHomeHandler implements SmartHomeHandler {
 
     @Override
     public void handleEvent(SensorEvent event) {
-        if (event.getType() != LIGHT_ON && event.getType() != LIGHT_OFF) return;
+        if (event.getType() != DOOR_OPEN && event.getType() != DOOR_CLOSED) return;
         // событие от двери
-        Pair<Door, Room> targetPlace = findDoor(event.getObjectId());
-        if (targetPlace != null) {
-            moveDoor(targetPlace.getKey(), targetPlace.getValue(), event.getType() == DOOR_OPEN);
-        }
-    }
-    
-    private Pair<Door, Room> findDoor(String id) {
-        for (Room room : smartHome.getRooms()) {
-            for (Door door : room.getDoors()) {
-                if (door.getId().equals(id)) {
-                    return new Pair<>(door, room);
-                }
-            }
-        }
-        
-        return null;
-    }
-    
-    private void moveDoor(Door door, Room room, boolean isOpen) {
-        door.setOpen(isOpen);
-        output.sendLog("Door " + door.getId() + " in room " + room.getName() + " was "
-                + (isOpen? "opened.": "closed."));
+        smartHome.execute(new OpenCloseDoorSmartHomeAction(
+                event.getType() == DOOR_OPEN, event.getObjectId(), output));
     }
 }
