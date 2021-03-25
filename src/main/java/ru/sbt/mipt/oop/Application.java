@@ -2,8 +2,8 @@ package ru.sbt.mipt.oop;
 
 import ru.sbt.mipt.oop.command.DummySenderCommands;
 import ru.sbt.mipt.oop.events.*;
-import ru.sbt.mipt.oop.events.alarm.Alarm;
-import ru.sbt.mipt.oop.events.alarm.BaseAlarm;
+import ru.sbt.mipt.oop.events.alarm.AlarmSmartHomeHandler;
+import ru.sbt.mipt.oop.events.alarm.BaseAlarmSmartHomeHandler;
 import ru.sbt.mipt.oop.events.alarm.DecoratorWithAlarmSmartHomeHandler;
 import ru.sbt.mipt.oop.log.*;
 import ru.sbt.mipt.oop.notification.SmsSenderNotifications;
@@ -22,12 +22,14 @@ public class Application {
         SmartHome smartHome = homeReader.readSmartHome();
         OutputStream output = new ConsoleOutputStream();
 
-        Alarm alarm = new BaseAlarm(new SmsSenderNotifications());
+        AlarmSmartHomeHandler alarmSmartHomeHandler = new BaseAlarmSmartHomeHandler(new SmsSenderNotifications());
         List<SmartHomeHandler> handlersList = Arrays.asList(
-                new DecoratorWithAlarmSmartHomeHandler(new DoorSmartHomeHandler(smartHome, output), alarm),
-                new DecoratorWithAlarmSmartHomeHandler(new LightSmartHomeHandler(smartHome, output), alarm),
                 new DecoratorWithAlarmSmartHomeHandler(
-                        new EntranceSmartHomeHandler(smartHome, new DummySenderCommands()), alarm)
+                        new DoorSmartHomeHandler(smartHome, output), alarmSmartHomeHandler),
+                new DecoratorWithAlarmSmartHomeHandler(
+                        new LightSmartHomeHandler(smartHome, output), alarmSmartHomeHandler),
+                new DecoratorWithAlarmSmartHomeHandler(
+                        new EntranceSmartHomeHandler(smartHome, new DummySenderCommands()), alarmSmartHomeHandler)
         );
 
         // начинаем цикл обработки событий
