@@ -2,14 +2,15 @@ package ru.sbt.mipt.oop;
 
 import ru.sbt.mipt.oop.command.DummySenderCommands;
 import ru.sbt.mipt.oop.events.*;
-import ru.sbt.mipt.oop.events.alarm.BaseAlarmSmartHomeHandler;
+import ru.sbt.mipt.oop.events.alarm.Alarm;
+import ru.sbt.mipt.oop.events.alarm.BaseAlarm;
+import ru.sbt.mipt.oop.events.alarm.DecoratorWithAlarmSmartHomeHandler;
 import ru.sbt.mipt.oop.log.*;
-import ru.sbt.mipt.oop.notification.SmsSenderNotificationsImpl;
+import ru.sbt.mipt.oop.notification.SmsSenderNotifications;
 import ru.sbt.mipt.oop.smarthome.JsonSmartHomeRecorder;
 import ru.sbt.mipt.oop.smarthome.SmartHome;
 import ru.sbt.mipt.oop.smarthome.SmartHomeRecorder;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,15 +22,14 @@ public class Application {
         SmartHome smartHome = homeReader.readSmartHome();
         OutputStream output = new ConsoleOutputStream();
 
-        List<SmartHomeHandler> sensorHandlersList = Arrays.asList(
-                new DoorSmartHomeHandler(smartHome, output),
-                new LightSmartHomeHandler(smartHome, output),
-                new EntranceSmartHomeHandler(smartHome, new DummySenderCommands())
+        Alarm alarm = new BaseAlarm(new SmsSenderNotifications());
+        List<SmartHomeHandler> handlersList = Arrays.asList(
+                new DecoratorWithAlarmSmartHomeHandler(new DoorSmartHomeHandler(smartHome, output), alarm),
+                new DecoratorWithAlarmSmartHomeHandler(new LightSmartHomeHandler(smartHome, output), alarm),
+                new DecoratorWithAlarmSmartHomeHandler(
+                        new EntranceSmartHomeHandler(smartHome, new DummySenderCommands()), alarm)
         );
 
-        List<SmartHomeHandler> handlersList = Arrays.asList(
-          new BaseAlarmSmartHomeHandler(sensorHandlersList, new SmsSenderNotificationsImpl())
-        );
         // начинаем цикл обработки событий
         ReceiverEvents receiver = new SmartHomeReceiverEvents(handlersList, output);
         receiver.handleEvents(new TestingEventsSource());
