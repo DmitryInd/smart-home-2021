@@ -11,6 +11,8 @@ import ru.sbt.mipt.oop.smarthome.JsonSmartHomeRecorder;
 import ru.sbt.mipt.oop.smarthome.SmartHome;
 import ru.sbt.mipt.oop.smarthome.SmartHomeRecorder;
 
+import com.coolcompany.smarthome.events.*;
+
 import java.util.Arrays;
 import java.util.List;
 
