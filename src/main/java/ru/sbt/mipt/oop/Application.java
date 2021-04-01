@@ -1,11 +1,12 @@
 package ru.sbt.mipt.oop;
 
+import ru.sbt.mipt.oop.alarm.Alarm;
+import ru.sbt.mipt.oop.alarm.BaseAlarm;
 import ru.sbt.mipt.oop.command.DummySenderCommands;
 import ru.sbt.mipt.oop.events.*;
-import ru.sbt.mipt.oop.events.alarm.AlarmSmartHomeHandler;
-import ru.sbt.mipt.oop.events.alarm.BaseAlarmSmartHomeHandler;
-import ru.sbt.mipt.oop.events.alarm.DecoratorWithAlarmSmartHomeHandler;
+import ru.sbt.mipt.oop.events.alarm.*;
 import ru.sbt.mipt.oop.log.*;
+import ru.sbt.mipt.oop.notification.SenderNotifications;
 import ru.sbt.mipt.oop.notification.SmsSenderNotifications;
 import ru.sbt.mipt.oop.smarthome.JsonSmartHomeRecorder;
 import ru.sbt.mipt.oop.smarthome.SmartHome;
@@ -20,16 +21,21 @@ public class Application {
         // считываем состояние дома из файла
         SmartHomeRecorder homeReader = new JsonSmartHomeRecorder("smart-home-1.js");
         SmartHome smartHome = homeReader.readSmartHome();
-        OutputStream output = new ConsoleOutputStream();
 
-        AlarmSmartHomeHandler alarmSmartHomeHandler = new BaseAlarmSmartHomeHandler(new SmsSenderNotifications());
+        Alarm alarm = new BaseAlarm();
+        SenderNotifications senderNotifications = new SmsSenderNotifications();
+        OutputStream output = new ConsoleOutputStream();
         List<SmartHomeHandler> handlersList = Arrays.asList(
                 new DecoratorWithAlarmSmartHomeHandler(
-                        new DoorSmartHomeHandler(smartHome, output), alarmSmartHomeHandler),
+                        senderNotifications, new DoorSmartHomeHandler(smartHome, output), alarm),
                 new DecoratorWithAlarmSmartHomeHandler(
-                        new LightSmartHomeHandler(smartHome, output), alarmSmartHomeHandler),
+                        senderNotifications, new LightSmartHomeHandler(smartHome, output), alarm),
                 new DecoratorWithAlarmSmartHomeHandler(
-                        new EntranceSmartHomeHandler(smartHome, new DummySenderCommands()), alarmSmartHomeHandler)
+                        senderNotifications, new EntranceSmartHomeHandler(smartHome, new DummySenderCommands()), alarm),
+                new DecoratorWithAlarmSmartHomeHandler(
+                        senderNotifications, new DeactivateSmartHomeHandler(alarm, senderNotifications), alarm),
+                new DecoratorWithAlarmSmartHomeHandler(
+                        senderNotifications, new ActivateAlarmSmartHomeHandler(alarm, senderNotifications), alarm)
         );
 
         // начинаем цикл обработки событий
