@@ -126,7 +126,7 @@ class DecoratorWithAlarmSmartHomeHandlerTest {
     }
 
     private List<SmartHomeHandler> createDummyHandler(SmartHome smartHome) {
-        Alarm alarm = new BaseAlarm();
+        Alarm alarm = new SmartHomeAlarm();
         SenderNotifications senderNotifications = new SmsSenderNotifications();
         return Arrays.asList(
                 new DecoratorWithAlarmSmartHomeHandler(

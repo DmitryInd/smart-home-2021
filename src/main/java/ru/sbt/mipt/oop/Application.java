@@ -1,7 +1,7 @@
 package ru.sbt.mipt.oop;
 
 import ru.sbt.mipt.oop.alarm.Alarm;
-import ru.sbt.mipt.oop.alarm.BaseAlarm;
+import ru.sbt.mipt.oop.alarm.SmartHomeAlarm;
 import ru.sbt.mipt.oop.command.DummySenderCommands;
 import ru.sbt.mipt.oop.events.*;
 import ru.sbt.mipt.oop.events.alarm.*;
@@ -22,7 +22,7 @@ public class Application {
         SmartHomeRecorder homeReader = new JsonSmartHomeRecorder("smart-home-1.js");
         SmartHome smartHome = homeReader.readSmartHome();
 
-        Alarm alarm = new BaseAlarm();
+        Alarm alarm = new SmartHomeAlarm();
         SenderNotifications senderNotifications = new SmsSenderNotifications();
         OutputStream output = new ConsoleOutputStream();
         List<SmartHomeHandler> handlersList = Arrays.asList(

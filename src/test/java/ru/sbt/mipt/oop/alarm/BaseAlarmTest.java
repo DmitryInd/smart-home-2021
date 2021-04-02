@@ -7,18 +7,19 @@ import static org.junit.jupiter.api.Assertions.*;
 class AlarmTest {
     @Test
     void checkStatusTest() {
-        BaseAlarm baseAlarm = new BaseAlarm();
-        Alarm alarm = new DeactivatedAlarm(baseAlarm);
+        SmartHomeAlarm alarm = new SmartHomeAlarm();
         assertTrue(alarm.isDeactivated());
-        alarm = new ActivatedAlarm(baseAlarm);
+
+        alarm.activate("21343");
         assertFalse(alarm.isDeactivated());
-        alarm = new TriggeredAlarm(baseAlarm);
+
+        alarm.trigger();
         assertFalse(alarm.isDeactivated());
     }
 
     @Test
     void getActivatedStatus() {
-        Alarm alarm = new BaseAlarm();
+        Alarm alarm = new SmartHomeAlarm();
         alarm.activate("897657");
         assertFalse(alarm.isDeactivated());
 
@@ -31,7 +32,7 @@ class AlarmTest {
 
     @Test
     void getDeactivatedStatus() {
-        Alarm alarm = new BaseAlarm();
+        Alarm alarm = new SmartHomeAlarm();
         alarm.activate("897657");
         alarm.deactivate("897657");
         assertTrue(alarm.isDeactivated());
@@ -52,7 +53,7 @@ class AlarmTest {
 
     @Test
     void getTriggeredStatus() {
-        Alarm alarm = new BaseAlarm();
+        Alarm alarm = new SmartHomeAlarm();
         alarm.activate("897657");
         alarm.trigger();
         assertFalse(alarm.isDeactivated());
