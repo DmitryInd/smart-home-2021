@@ -1,24 +1,28 @@
 package ru.sbt.mipt.oop.events.alarm;
 
+import ru.sbt.mipt.oop.alarm.Alarm;
 import ru.sbt.mipt.oop.events.Event;
 import ru.sbt.mipt.oop.events.SmartHomeHandler;
-
-import static ru.sbt.mipt.oop.events.alarm.AlarmStatus.*;
+import ru.sbt.mipt.oop.notification.SenderNotifications;
 
 public class DecoratorWithAlarmSmartHomeHandler implements SmartHomeHandler {
+    private final SenderNotifications senderNotifications;
     private final SmartHomeHandler handler;
-    private final AlarmSmartHomeHandler alarm;
+    private final Alarm alarm;
 
-    public DecoratorWithAlarmSmartHomeHandler(SmartHomeHandler handler, AlarmSmartHomeHandler alarm) {
+    public DecoratorWithAlarmSmartHomeHandler(SenderNotifications senderNotifications, SmartHomeHandler handler, Alarm alarm) {
+        this.senderNotifications = senderNotifications;
         this.handler = handler;
         this.alarm = alarm;
     }
 
     @Override
     public void handleEvent(Event event) {
-        alarm.handleEvent(event);
-        if (alarm.getStatus() == DEACTIVATED) {
+        if (event instanceof AlarmEvent || alarm.isDeactivated()) {
             handler.handleEvent(event);
+        } else {
+            alarm.trigger();
+            senderNotifications.send("Intruder has been detected");
         }
     }
 }
