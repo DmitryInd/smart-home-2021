@@ -5,6 +5,7 @@ import ru.sbt.mipt.oop.alarm.SmartHomeAlarm;
 import ru.sbt.mipt.oop.command.DummySenderCommands;
 import ru.sbt.mipt.oop.events.*;
 import ru.sbt.mipt.oop.events.alarm.*;
+import ru.sbt.mipt.oop.events.coolcompany.adapter.AdapterEventHandler;
 import ru.sbt.mipt.oop.log.*;
 import ru.sbt.mipt.oop.notification.SenderNotifications;
 import ru.sbt.mipt.oop.notification.SmsSenderNotifications;
@@ -41,7 +42,9 @@ public class Application {
         );
 
         // начинаем цикл обработки событий
-        ReceiverEvents receiver = new SmartHomeReceiverEvents(handlersList, output);
-        receiver.handleEvents(new TestingEventsSource());
+        SensorEventsManager sensorEventsManager = new SensorEventsManager();
+        handlersList.forEach((handler ->
+                sensorEventsManager.registerEventHandler(new AdapterEventHandler(handler))));
+        sensorEventsManager.start();
     }
 }
