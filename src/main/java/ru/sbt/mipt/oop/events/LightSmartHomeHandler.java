@@ -4,7 +4,7 @@ import ru.sbt.mipt.oop.actions.SwitchLightSmartHomeAction;
 import ru.sbt.mipt.oop.log.OutputStream;
 import ru.sbt.mipt.oop.smarthome.SmartHome;
 
-import static ru.sbt.mipt.oop.events.SensorEventType.*;
+import static ru.sbt.mipt.oop.events.EventType.*;
 
 public class LightSmartHomeHandler implements SmartHomeHandler {
     private final SmartHome smartHome;
@@ -16,11 +16,11 @@ public class LightSmartHomeHandler implements SmartHomeHandler {
     }
 
     @Override
-    public void handleEvent(SensorEvent event) {
+    public void handleEvent(Event event) {
         if (event.getType() != LIGHT_ON && event.getType() != LIGHT_OFF) return;
         // событие от источника света
         smartHome.execute(new SwitchLightSmartHomeAction(
-                event.getType() == LIGHT_ON, event.getObjectId(), output));
+                event.getType() == LIGHT_ON, ((SensorEvent) event).getObjectId(), output));
     }
 
 }

@@ -17,9 +17,9 @@ class LightSmartHomeHandlerTest {
         ReceiverEvents receiverEvents = new SmartHomeReceiverEvents(handlersList, new ConsoleOutputStream());
         EventsSource eventsSource = new EventsSource() {
             final Iterator<SensorEvent> events = Arrays.asList(
-                    new SensorEvent(SensorEventType.LIGHT_OFF, "1"),
-                    new SensorEvent(SensorEventType.LIGHT_ON, "2"),
-                    new SensorEvent(SensorEventType.LIGHT_OFF, "3")).iterator();
+                    new SensorEvent(EventType.LIGHT_OFF, "1"),
+                    new SensorEvent(EventType.LIGHT_ON, "2"),
+                    new SensorEvent(EventType.LIGHT_OFF, "3")).iterator();
 
             @Override
             public SensorEvent getNextSensorEvent() {
@@ -43,9 +43,9 @@ class LightSmartHomeHandlerTest {
         ReceiverEvents receiverEvents = new SmartHomeReceiverEvents(handlersList, new ConsoleOutputStream());
         EventsSource eventsSource = new EventsSource() {
             final Iterator<SensorEvent> events = Arrays.asList(
-                    new SensorEvent(SensorEventType.LIGHT_OFF, "0"),
-                    new SensorEvent(SensorEventType.LIGHT_ON, "h"),
-                    new SensorEvent(SensorEventType.LIGHT_OFF, "4")).iterator();
+                    new SensorEvent(EventType.LIGHT_OFF, "0"),
+                    new SensorEvent(EventType.LIGHT_ON, "h"),
+                    new SensorEvent(EventType.LIGHT_OFF, "4")).iterator();
 
             @Override
             public SensorEvent getNextSensorEvent() {
