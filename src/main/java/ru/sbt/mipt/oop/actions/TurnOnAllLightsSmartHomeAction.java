@@ -4,10 +4,10 @@ import ru.sbt.mipt.oop.command.*;
 import ru.sbt.mipt.oop.smarthome.Light;
 import ru.sbt.mipt.oop.smarthome.SmartHomeObject;
 
-public class TurnOffAllLightsSmartHomeAction implements SmartHomeAction {
+public class TurnOnAllLightsSmartHomeAction implements SmartHomeAction {
     private final SenderCommands senderCommands;
 
-    public TurnOffAllLightsSmartHomeAction(SenderCommands senderCommands) {
+    public TurnOnAllLightsSmartHomeAction(SenderCommands senderCommands) {
         this.senderCommands = senderCommands;
     }
 
@@ -15,8 +15,8 @@ public class TurnOffAllLightsSmartHomeAction implements SmartHomeAction {
     public void performOn(SmartHomeObject object) {
         if (object instanceof Light) {
             Light light = (Light) object;
-            light.setOn(false);
-            senderCommands.sendCommand(new SensorCommand(CommandType.LIGHT_OFF, light.getId()));
+            light.setOn(true);
+            senderCommands.sendCommand(new SensorCommand(CommandType.LIGHT_ON, light.getId()));
         }
     }
 }

@@ -1,5 +1,5 @@
 package ru.sbt.mipt.oop.command;
 
 public enum CommandType {
-    LIGHT_OFF
+    LIGHT_OFF, LIGHT_ON
 }
