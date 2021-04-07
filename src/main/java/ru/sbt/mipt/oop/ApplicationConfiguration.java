@@ -6,12 +6,15 @@ import org.springframework.context.annotation.Configuration;
 import ru.sbt.mipt.oop.alarm.Alarm;
 import ru.sbt.mipt.oop.alarm.SmartHomeAlarm;
 import ru.sbt.mipt.oop.command.DummySenderCommands;
+import ru.sbt.mipt.oop.command.SenderCommands;
 import ru.sbt.mipt.oop.events.*;
 import ru.sbt.mipt.oop.events.alarm.ActivateAlarmSmartHomeHandler;
 import ru.sbt.mipt.oop.events.alarm.DeactivateSmartHomeHandler;
 import ru.sbt.mipt.oop.events.alarm.DecoratorWithAlarmSmartHomeHandler;
 import ru.sbt.mipt.oop.events.coolcompany.adapter.AdapterEventHandler;
 import ru.sbt.mipt.oop.log.ConsoleOutputStream;
+import ru.sbt.mipt.oop.log.OutputStream;
+import ru.sbt.mipt.oop.notification.SenderNotifications;
 import ru.sbt.mipt.oop.notification.SmsSenderNotifications;
 import ru.sbt.mipt.oop.smarthome.JsonSmartHomeRecorder;
 import ru.sbt.mipt.oop.smarthome.SmartHome;
@@ -60,43 +63,43 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    DoorSmartHomeHandler DoorSmartHomeHandler() {
+    SmartHomeHandler DoorSmartHomeHandler() {
         return new DoorSmartHomeHandler(smartHome(), consoleOutputStream());
     }
 
     @Bean
-    LightSmartHomeHandler LightSmartHomeHandler() {
+    SmartHomeHandler LightSmartHomeHandler() {
         return new LightSmartHomeHandler(smartHome(), consoleOutputStream());
     }
 
     @Bean
-    EntranceSmartHomeHandler EntranceSmartHomeHandler() {
+    SmartHomeHandler EntranceSmartHomeHandler() {
         return new EntranceSmartHomeHandler(smartHome(), dummySenderCommands());
     }
 
     @Bean
-    DeactivateSmartHomeHandler DeactivateSmartHomeHandler() {
+    SmartHomeHandler DeactivateSmartHomeHandler() {
         return new DeactivateSmartHomeHandler(smartHomeAlarm(), smsSenderNotifications());
     }
 
     @Bean
-    ActivateAlarmSmartHomeHandler ActivateAlarmSmartHomeHandler() {
+    SmartHomeHandler ActivateAlarmSmartHomeHandler() {
         return new ActivateAlarmSmartHomeHandler(smartHomeAlarm(), smsSenderNotifications());
     }
 
 
     @Bean
-    DummySenderCommands dummySenderCommands() {
+    SenderCommands dummySenderCommands() {
         return new DummySenderCommands();
     }
 
     @Bean
-    ConsoleOutputStream consoleOutputStream() {
+    OutputStream consoleOutputStream() {
         return new ConsoleOutputStream();
     }
 
     @Bean
-    SmsSenderNotifications smsSenderNotifications() {
+    SenderNotifications smsSenderNotifications() {
         return new SmsSenderNotifications();
     }
 
