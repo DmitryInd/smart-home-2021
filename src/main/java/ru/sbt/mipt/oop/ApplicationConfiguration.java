@@ -6,10 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import ru.sbt.mipt.oop.alarm.Alarm;
 import ru.sbt.mipt.oop.alarm.SmartHomeAlarm;
 import ru.sbt.mipt.oop.command.DummySenderCommands;
-import ru.sbt.mipt.oop.events.DoorSmartHomeHandler;
-import ru.sbt.mipt.oop.events.EntranceSmartHomeHandler;
-import ru.sbt.mipt.oop.events.LightSmartHomeHandler;
-import ru.sbt.mipt.oop.events.SmartHomeHandler;
+import ru.sbt.mipt.oop.events.*;
 import ru.sbt.mipt.oop.events.alarm.ActivateAlarmSmartHomeHandler;
 import ru.sbt.mipt.oop.events.alarm.DeactivateSmartHomeHandler;
 import ru.sbt.mipt.oop.events.alarm.DecoratorWithAlarmSmartHomeHandler;
@@ -21,7 +18,9 @@ import ru.sbt.mipt.oop.smarthome.SmartHome;
 import ru.sbt.mipt.oop.smarthome.SmartHomeRecorder;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Configuration
 public class ApplicationConfiguration {
@@ -34,21 +33,57 @@ public class ApplicationConfiguration {
                                 new DecoratorWithAlarmSmartHomeHandler(
                                         smsSenderNotifications(),
                                         handler,
-                                        smartHomeAlarm()))));
+                                        smartHomeAlarm()), dictionary())));
 
         return manager;
     }
 
     @Bean
+    Map<String, EventType> dictionary(){
+        Map<String, EventType> dictionary = new HashMap<>();
+        dictionary.put("LightIsOn", EventType.LIGHT_ON);
+        dictionary.put("LightIsOff", EventType.LIGHT_OFF);
+        dictionary.put("DoorIsOpen", EventType.DOOR_OPEN);
+        dictionary.put("DoorIsClosed", EventType.DOOR_CLOSED);
+        return dictionary;
+    }
+
+    @Bean
     List<SmartHomeHandler> handlersList() {
         return Arrays.asList(
-                new DoorSmartHomeHandler(smartHome(), consoleOutputStream()),
-                new LightSmartHomeHandler(smartHome(), consoleOutputStream()),
-                new EntranceSmartHomeHandler(smartHome(), dummySenderCommands()),
-                new DeactivateSmartHomeHandler(smartHomeAlarm(), smsSenderNotifications()),
-                new ActivateAlarmSmartHomeHandler(smartHomeAlarm(), smsSenderNotifications())
+                DoorSmartHomeHandler(),
+                LightSmartHomeHandler(),
+                EntranceSmartHomeHandler(),
+                DeactivateSmartHomeHandler(),
+                ActivateAlarmSmartHomeHandler()
         );
     }
+
+    @Bean
+    DoorSmartHomeHandler DoorSmartHomeHandler() {
+        return new DoorSmartHomeHandler(smartHome(), consoleOutputStream());
+    }
+
+    @Bean
+    LightSmartHomeHandler LightSmartHomeHandler() {
+        return new LightSmartHomeHandler(smartHome(), consoleOutputStream());
+    }
+
+    @Bean
+    EntranceSmartHomeHandler EntranceSmartHomeHandler() {
+        return new EntranceSmartHomeHandler(smartHome(), dummySenderCommands());
+    }
+
+    @Bean
+    DeactivateSmartHomeHandler DeactivateSmartHomeHandler() {
+        return new DeactivateSmartHomeHandler(smartHomeAlarm(), smsSenderNotifications());
+    }
+
+    @Bean
+    ActivateAlarmSmartHomeHandler ActivateAlarmSmartHomeHandler() {
+        return new ActivateAlarmSmartHomeHandler(smartHomeAlarm(), smsSenderNotifications());
+    }
+
 
     @Bean
     DummySenderCommands dummySenderCommands() {
