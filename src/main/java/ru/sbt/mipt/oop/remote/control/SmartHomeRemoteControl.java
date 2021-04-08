@@ -29,7 +29,7 @@ public class SmartHomeRemoteControl implements RemoteControl {
             if (toExecution != null) {
                 toExecution.execute();
             }
-        } else {
+        } else if (nextRemoteControl != null){
             nextRemoteControl.onButtonPressed(buttonCode, rcId);
         }
     }

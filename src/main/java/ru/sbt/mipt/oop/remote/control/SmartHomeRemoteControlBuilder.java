@@ -6,9 +6,9 @@ import ru.sbt.mipt.oop.remote.RemoteControlBuilder;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SmartHomeRemoteControlBuilder implements RemoteControlBuilder {
+public class SmartHomeRemoteControlBuilder implements RemoteControlBuilder<SmartHomeRemoteControl> {
     private SmartHomeRemoteControl prevRemoteControl;
-    private final Map<String, Command> buttonCommands = new HashMap<>();
+    private Map<String, Command> buttonCommands = new HashMap<>();
     private String rcId;
 
     public SmartHomeRemoteControlBuilder() {}
@@ -19,7 +19,7 @@ public class SmartHomeRemoteControlBuilder implements RemoteControlBuilder {
 
     @Override
     public void reset() {
-        buttonCommands.clear();
+        buttonCommands = new HashMap<>();
     }
 
     @Override
@@ -32,6 +32,7 @@ public class SmartHomeRemoteControlBuilder implements RemoteControlBuilder {
         buttonCommands.put(id, command);
     }
 
+    @Override
     public SmartHomeRemoteControl getResult() {
         prevRemoteControl = new SmartHomeRemoteControl(buttonCommands, prevRemoteControl, rcId);
         reset();
