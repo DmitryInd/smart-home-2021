@@ -8,17 +8,20 @@ import ru.sbt.mipt.oop.alarm.SmartHomeAlarm;
 import ru.sbt.mipt.oop.command.DummySenderCommands;
 import ru.sbt.mipt.oop.command.SenderCommands;
 import ru.sbt.mipt.oop.events.*;
-import ru.sbt.mipt.oop.events.alarm.ActivateAlarmSmartHomeHandler;
-import ru.sbt.mipt.oop.events.alarm.DeactivateSmartHomeHandler;
-import ru.sbt.mipt.oop.events.alarm.DecoratorWithAlarmSmartHomeHandler;
-import ru.sbt.mipt.oop.events.coolcompany.adapter.AdapterEventHandler;
+import ru.sbt.mipt.oop.events.handler.ActivateAlarmSmartHomeHandler;
+import ru.sbt.mipt.oop.events.handler.DeactivateAlarmSmartHomeHandler;
+import ru.sbt.mipt.oop.events.handler.DecoratorWithAlarmSmartHomeHandler;
+import ru.sbt.mipt.oop.events.handler.coolcompany.AdapterEventHandler;
+import ru.sbt.mipt.oop.events.handler.DoorSmartHomeHandler;
+import ru.sbt.mipt.oop.events.handler.EntranceSmartHomeHandler;
+import ru.sbt.mipt.oop.events.handler.LightSmartHomeHandler;
 import ru.sbt.mipt.oop.log.ConsoleOutputStream;
 import ru.sbt.mipt.oop.log.OutputStream;
 import ru.sbt.mipt.oop.notification.SenderNotifications;
 import ru.sbt.mipt.oop.notification.SmsSenderNotifications;
-import ru.sbt.mipt.oop.smarthome.JsonSmartHomeRecorder;
-import ru.sbt.mipt.oop.smarthome.SmartHome;
-import ru.sbt.mipt.oop.smarthome.SmartHomeRecorder;
+import ru.sbt.mipt.oop.smarthome.object.recorder.JsonSmartHomeRecorder;
+import ru.sbt.mipt.oop.smarthome.object.SmartHome;
+import ru.sbt.mipt.oop.smarthome.object.SmartHomeRecorder;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -79,7 +82,7 @@ public class ApplicationConfiguration {
 
     @Bean
     SmartHomeHandler DeactivateSmartHomeHandler() {
-        return new DeactivateSmartHomeHandler(smartHomeAlarm(), smsSenderNotifications());
+        return new DeactivateAlarmSmartHomeHandler(smartHomeAlarm(), smsSenderNotifications());
     }
 
     @Bean

@@ -2,10 +2,17 @@ package ru.sbt.mipt.oop.events;
 
 import org.junit.jupiter.api.*;
 
-import ru.sbt.mipt.oop.actions.SmartHomeAction;
+import ru.sbt.mipt.oop.events.handler.EntranceSmartHomeHandler;
+import ru.sbt.mipt.oop.events.receiver.SmartHomeReceiverEvents;
+import ru.sbt.mipt.oop.events.event.SensorEvent;
+import ru.sbt.mipt.oop.smarthome.SmartHomeAction;
 import ru.sbt.mipt.oop.command.DummySenderCommands;
 import ru.sbt.mipt.oop.log.ConsoleOutputStream;
 import ru.sbt.mipt.oop.smarthome.*;
+import ru.sbt.mipt.oop.smarthome.object.Door;
+import ru.sbt.mipt.oop.smarthome.object.Light;
+import ru.sbt.mipt.oop.smarthome.object.Room;
+import ru.sbt.mipt.oop.smarthome.object.SmartHome;
 
 import java.util.*;
 

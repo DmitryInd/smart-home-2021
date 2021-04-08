@@ -1,13 +1,23 @@
 package ru.sbt.mipt.oop.events.alarm;
 
 import org.junit.jupiter.api.Test;
-import ru.sbt.mipt.oop.actions.SmartHomeAction;
+import ru.sbt.mipt.oop.events.event.AlarmEvent;
+import ru.sbt.mipt.oop.events.handler.ActivateAlarmSmartHomeHandler;
+import ru.sbt.mipt.oop.events.handler.DeactivateAlarmSmartHomeHandler;
+import ru.sbt.mipt.oop.events.handler.DecoratorWithAlarmSmartHomeHandler;
+import ru.sbt.mipt.oop.events.handler.DoorSmartHomeHandler;
+import ru.sbt.mipt.oop.events.event.SensorEvent;
+import ru.sbt.mipt.oop.smarthome.SmartHomeAction;
 import ru.sbt.mipt.oop.alarm.*;
 import ru.sbt.mipt.oop.events.*;
 import ru.sbt.mipt.oop.log.ConsoleOutputStream;
 import ru.sbt.mipt.oop.notification.SenderNotifications;
 import ru.sbt.mipt.oop.notification.SmsSenderNotifications;
 import ru.sbt.mipt.oop.smarthome.*;
+import ru.sbt.mipt.oop.smarthome.object.Door;
+import ru.sbt.mipt.oop.smarthome.object.Light;
+import ru.sbt.mipt.oop.smarthome.object.Room;
+import ru.sbt.mipt.oop.smarthome.object.SmartHome;
 
 import java.util.*;
 
@@ -132,7 +142,7 @@ class DecoratorWithAlarmSmartHomeHandlerTest {
                 new DecoratorWithAlarmSmartHomeHandler(
                         senderNotifications, new DoorSmartHomeHandler(smartHome, new ConsoleOutputStream()), alarm),
                 new DecoratorWithAlarmSmartHomeHandler(
-                        senderNotifications, new DeactivateSmartHomeHandler(alarm, new SmsSenderNotifications()), alarm),
+                        senderNotifications, new DeactivateAlarmSmartHomeHandler(alarm, new SmsSenderNotifications()), alarm),
                 new DecoratorWithAlarmSmartHomeHandler(
                         senderNotifications, new ActivateAlarmSmartHomeHandler(alarm, new SmsSenderNotifications()), alarm)
         );

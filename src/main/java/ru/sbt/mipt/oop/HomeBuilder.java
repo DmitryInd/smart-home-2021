@@ -1,6 +1,7 @@
 package ru.sbt.mipt.oop;
 
-import ru.sbt.mipt.oop.smarthome.*;
+import ru.sbt.mipt.oop.smarthome.object.*;
+import ru.sbt.mipt.oop.smarthome.object.recorder.JsonSmartHomeRecorder;
 
 import java.util.Arrays;
 import java.util.Collection;
