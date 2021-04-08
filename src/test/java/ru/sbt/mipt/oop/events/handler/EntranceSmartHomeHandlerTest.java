@@ -6,7 +6,6 @@ import ru.sbt.mipt.oop.events.EventType;
 import ru.sbt.mipt.oop.events.EventsSource;
 import ru.sbt.mipt.oop.events.ReceiverEvents;
 import ru.sbt.mipt.oop.events.SmartHomeHandler;
-import ru.sbt.mipt.oop.events.handler.EntranceSmartHomeHandler;
 import ru.sbt.mipt.oop.events.receiver.SmartHomeReceiverEvents;
 import ru.sbt.mipt.oop.events.event.SensorEvent;
 import ru.sbt.mipt.oop.smarthome.SmartHomeAction;

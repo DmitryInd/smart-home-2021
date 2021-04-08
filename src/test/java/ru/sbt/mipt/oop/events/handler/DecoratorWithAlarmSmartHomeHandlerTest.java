@@ -2,10 +2,6 @@ package ru.sbt.mipt.oop.events.handler;
 
 import org.junit.jupiter.api.Test;
 import ru.sbt.mipt.oop.events.event.AlarmEvent;
-import ru.sbt.mipt.oop.events.handler.ActivateAlarmSmartHomeHandler;
-import ru.sbt.mipt.oop.events.handler.DeactivateAlarmSmartHomeHandler;
-import ru.sbt.mipt.oop.events.handler.DecoratorWithAlarmSmartHomeHandler;
-import ru.sbt.mipt.oop.events.handler.DoorSmartHomeHandler;
 import ru.sbt.mipt.oop.events.event.SensorEvent;
 import ru.sbt.mipt.oop.smarthome.SmartHomeAction;
 import ru.sbt.mipt.oop.alarm.*;
