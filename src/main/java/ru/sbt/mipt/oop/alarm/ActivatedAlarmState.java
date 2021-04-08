@@ -2,7 +2,7 @@ package ru.sbt.mipt.oop.alarm;
 
 public class ActivatedAlarmState implements AlarmState {
     private final Alarm context;
-    private String code;
+    private final String code;
 
     public ActivatedAlarmState(Alarm context, String code) {
         this.context = context;
