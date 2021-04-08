@@ -1,4 +1,4 @@
-package ru.sbt.mipt.oop.events.alarm;
+package ru.sbt.mipt.oop.events.handler;
 
 import org.junit.jupiter.api.Test;
 import ru.sbt.mipt.oop.events.event.AlarmEvent;
