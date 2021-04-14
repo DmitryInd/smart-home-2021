@@ -20,17 +20,14 @@ import ru.sbt.mipt.oop.smarthome.JsonSmartHomeRecorder;
 import ru.sbt.mipt.oop.smarthome.SmartHome;
 import ru.sbt.mipt.oop.smarthome.SmartHomeRecorder;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Configuration
 public class ApplicationConfiguration {
     @Bean
-    SensorEventsManager sensorEventsManager() {
+    SensorEventsManager sensorEventsManager(Collection<SmartHomeHandler> smartHomeHandlers) {
         SensorEventsManager manager = new SensorEventsManager();
-        handlersList().forEach(handler ->
+        smartHomeHandlers.forEach(handler ->
                 manager.registerEventHandler(
                         new AdapterEventHandler(
                                 new DecoratorWithAlarmSmartHomeHandler(
@@ -49,17 +46,6 @@ public class ApplicationConfiguration {
         dictionary.put("DoorIsOpen", EventType.DOOR_OPEN);
         dictionary.put("DoorIsClosed", EventType.DOOR_CLOSED);
         return dictionary;
-    }
-
-    @Bean
-    List<SmartHomeHandler> handlersList() {
-        return Arrays.asList(
-                DoorSmartHomeHandler(),
-                LightSmartHomeHandler(),
-                EntranceSmartHomeHandler(),
-                DeactivateSmartHomeHandler(),
-                ActivateAlarmSmartHomeHandler()
-        );
     }
 
     @Bean
