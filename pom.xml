@@ -14,6 +14,7 @@
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <aspectj.version>1.9.6</aspectj.version>
         <allure-junit4.version>2.16.1</allure-junit4.version>
+        <sonar.jacoco.reportPath>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPath>
     </properties>
 
     <dependencies>
@@ -49,11 +50,28 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>io.qameta.allure</groupId>
-                <artifactId>allure-maven</artifactId>
-                <version>2.10.0</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
                 <configuration>
-                    <reportVersion>${allure-junit4.version}</reportVersion>
+                    <encoding>UTF-8</encoding>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.0.201403182114</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <destFile>${sonar.jacoco.reportPath}</destFile>
                 </configuration>
             </plugin>
             <plugin>
@@ -81,13 +99,12 @@
                 </dependencies>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.10.0</version>
                 <configuration>
-                    <encoding>UTF-8</encoding>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <reportVersion>${allure-junit4.version}</reportVersion>
+                    <resultsDirectory>${project.build.directory}/surefire-reports</resultsDirectory>
                 </configuration>
             </plugin>
         </plugins>
